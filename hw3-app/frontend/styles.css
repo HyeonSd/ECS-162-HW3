@@ -1,0 +1,573 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif; 
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    position: relative; 
+}
+
+header .logo h1 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+nav {
+    text-align: center;
+    margin-top: 15px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.hyun {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: #000;
+}
+
+.hyun img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hyun-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+}
+
+.hyun-text h2 {
+    font-size: 2.5rem;
+}
+
+.hyun-text p {
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); 
+    gap: 20px;
+    padding: 40px 20px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.card h3 {
+    margin-top: 15px;
+    font-size: 1.3rem;
+}
+
+.card p {
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+
+#datetime {
+    position:absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 1rem;
+    font-family: 'Arial', sans-serif; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 10; 
+}
+
+#nyt-news {
+    padding: 20px;
+}
+
+#news-list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); 
+    gap: 20px;
+    list-style-type: none; 
+    padding: 0;
+}
+
+#news-list li {
+    background-color: #f4f4f4; 
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+#news-list li h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#news-list li p {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #555; 
+}
+
+#news-list li a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+#news-list li a:hover {
+    text-decoration: underline; 
+}
+
+#news-list li small {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.auth-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+}
+
+.auth-button {
+    display: inline-block;
+    padding: 5px 15px;
+    background-color: #1a1a1a;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid #444;
+    font-size: 0.9rem;
+}
+
+.auth-button:hover {
+    background-color: #333;
+}
+
+.moderator-badge {
+    background-color: #cc0000;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.article-item {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.article-content {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.article-image {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.article-text {
+    flex: 1;
+}
+
+.article-actions {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.comment-button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.comment-button:hover {
+    background-color: #e0e0e0;
+}
+
+#load-more-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#load-more-button {
+    background-color: #222;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#load-more-button:hover {
+    background-color: #444;
+}
+
+.comments-container {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.comments-list {
+    margin-bottom: 20px;
+}
+
+.comment {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comment.depth-0 {
+    margin-left: 0;
+}
+
+.comment.depth-1 {
+    margin-left: 20px;
+    border-left: 2px solid #ddd;
+}
+
+.comment.depth-2, 
+.comment.depth-3, 
+.comment.depth-4 {
+    margin-left: 40px;
+    border-left: 2px solid #ddd;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.comment-author {
+    font-weight: bold;
+}
+
+.comment-date {
+    color: #777;
+}
+
+.comment-content {
+    margin: 10px 0;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.comment-actions button {
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.comment-actions button:hover {
+    color: #000;
+}
+
+.reply-button {
+    color: #225588;
+}
+
+.remove-button {
+    color: #cc0000;
+}
+
+.redact-button {
+    color: #cc6600;
+}
+
+.no-comments {
+    color: #777;
+    font-style: italic;
+    margin: 10px 0;
+}
+
+.comment-form {
+    margin-top: 15px;
+}
+
+.comment-form h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.comment-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    margin-bottom: 10px;
+    font-family: inherit;
+}
+
+.comment-form button {
+    background-color: #222;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #444;
+}
+
+.login-prompt {
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-left: 3px solid #ccc;
+}
+
+.login-prompt a {
+    color: #225588;
+    text-decoration: none;
+}
+
+.login-prompt a:hover {
+    text-decoration: underline;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.cancel-button {
+    background-color: #f0f0f0 !important;
+    color: #333 !important;
+}
+
+.redact-form .form-instructions {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.redact-selected-button {
+    background-color: #cc6600 !important;
+}
+
+.error-message {
+    color: #cc0000;
+    padding: 10px;
+    background-color: #fff0f0;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+@media (min-width: 1024px) {
+    .news-grid {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+
+    #news-list {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+    
+    #datetime {
+        font-size: 1.2rem; 
+        top: 30px; 
+        left: 30px;
+    }
+
+    .hyun img {
+        height: 600px;  
+    }
+
+    header .logo h1 {
+        font-size: 2.5rem; 
+    }
+    
+    .comment.depth-1 {
+        margin-left: 30px;
+    }
+    
+    .comment.depth-2, 
+    .comment.depth-3, 
+    .comment.depth-4 {
+        margin-left: 60px;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+    .news-grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    #news-list {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    #datetime {
+        font-size: 1.1rem; 
+        top: 25px;  
+        left: 25px;
+    }
+
+    .hyun img {
+        height: 500px;  
+    }
+
+    header .logo h1 {
+        font-size: 2.2rem; 
+    }
+    
+    .comment.depth-1 {
+        margin-left: 20px;
+    }
+    
+    .comment.depth-2, 
+    .comment.depth-3, 
+    .comment.depth-4 {
+        margin-left: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .news-grid {
+        grid-template-columns: 1fr; 
+    }
+
+    #news-list {
+        grid-template-columns: 1fr; 
+    }
+
+    #datetime {
+        font-size: 1rem; 
+        top: 20px;  
+        left: 20px;
+    }
+
+    .hyun img {
+        height: 400px;  
+    }
+
+    header .logo h1 {
+        font-size: 1.8rem; 
+    }
+
+    .hyun-text h2 {
+        font-size: 2rem; 
+    }
+
+    .hyun-text p {
+        font-size: 1rem; 
+    }
+    
+    .article-content {
+        flex-direction: column;
+    }
+    
+    .article-image {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+    }
+    
+    .comment.depth-1, 
+    .comment.depth-2, 
+    .comment.depth-3, 
+    .comment.depth-4 {
+        margin-left: 10px;
+    }
+    
+    .auth-container {
+        top: 10px;
+        right: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .auth-button {
+        padding: 4px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .comment-form button,
+    .form-actions button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+}

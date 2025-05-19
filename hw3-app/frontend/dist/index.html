@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Svelte + TS</title>
+    <script type="module" crossorigin src="/assets/index-BJufP5Ak.js"></script>
+    <script lang="ts">
+      import { onMount } from 'svelte';
+    
+      let apiKey: string = '';
+    
+      onMount(async () => {
+        try {
+          const response = await fetch('/api/key');
+          if (response.ok) {
+            const data: { apiKey: string } = await response.json();
+            apiKey = data.apiKey;
+            console.log("API Key:", apiKey);
+          } else {
+            console.error('Failed to fetch API key:', response.status);
+          }
+        } catch (error) {
+          console.error('Error fetching API key:', error);
+        }
+      });
+    </script>     
+    <link rel="stylesheet" crossorigin href="/assets/index-yJpzg09Q.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <p>Your API Key: {apiKey}</p>
+  </body>
+</html>

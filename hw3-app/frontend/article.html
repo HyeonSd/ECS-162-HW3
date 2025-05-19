@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ article.headline.main }} - The New York Times</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> 
+</head>
+<body>
+    <hr>
+    <header class="header">
+        <div class="logo">
+            <h1>The New York Times</h1>
+        </div>
+        <div id="datetime">
+            {{ now.strftime('%B %d, %Y %I:%M:%S %p') }}
+        </div>  
+        
+        <div class="auth-container">
+            {% if user %}
+                <span>Welcome, {{ user.name or user.email }}</span>
+                {% if user.is_moderator %}
+                    <span class="moderator-badge">Moderator</span>
+                {% endif %}
+                <a href="{{ url_for('logout') }}" class="auth-button">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="auth-button">Login</a>
+            {% endif %}
+        </div>
+        
+        <nav class="nav">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="#">World</a></li>
+                <li><a href="#">Politics</a></li>
+                <li><a href="#">Business</a></li>
+                <li><a href="#">Technology</a></li>
+                <li><a href="#">Science</a></li>
+                <li><a href="#">Culture</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="article-container">
+            <div class="article-header">
+                <h1>{{ article.headline.main }}</h1>
+                <p class="article-byline">
+                    {% if article.byline and article.byline.original %}
+                        {{ article.byline.original }}
+                    {% endif %}
+                </p>
+                <p class="article-date">{{ article.pub_date|datetimeformat }}</p>
+            </div>
+            
+            {% if article.multimedia and article.multimedia|length > 0 %}
+                {% set multimedia = None %}
+                {% for media in article.multimedia %}
+                    {% if media.type == 'image' %}
+                        {% set multimedia = media %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if multimedia %}
+                    <div class="article-image-container">
+                        <img src="https://www.nytimes.com/{{ multimedia.url }}" alt="{{ article.headline.main }}" class="article-image-large">
+                        {% if multimedia.caption %}
+                            <p class="article-image-caption">{{ multimedia.caption }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endif %}
+            
+            <div class="article-content">
+                <p class="article-abstract">{{ article.abstract }}</p>
+                <p class="article-snippet">{{ article.snippet }}</p>
+                <p class="article-lead">{{ article.lead_paragraph }}</p>
+                
+                <p class="article-read-more">
+                    <a href="{{ article.web_url }}" target="_blank" class="nyt-link">Read the full article on The New York Times &rarr;</a>
+                </p>
+            </div>
+            
+            <div class="article-meta">
+                <p class="article-keywords">
+                    {% if article.keywords %}
+                        <strong>Keywords:</strong>
+                        {% for keyword in article.keywords %}
+                            <span class="keyword">{{ keyword.value }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        
+        <div class="comments-section">
+            <h2>Comments</h2>
+            
+            {% if user %}
+                <form action="{{ url_for('submit_comment') }}" method="post" class="comment-form">
+                    <input type="hidden" name="article_id" value="{{ article._id }}">
+                    <h3>Leave a Comment</h3>
+                    <textarea name="content" placeholder="Write your comment..." required></textarea>
+                    <button type="submit" class="submit-button">Submit Comment</button>
+                </form>
+            {% else %}
+                <div class="login-prompt">
+                    <p>Please <a href="{{ url_for('login') }}">login</a> to leave a comment.</p>
+                </div>
+            {% endif %}
+            
+            <div class="comments-list">
+                {% if comments|length == 0 %}
+                    <div class="no-comments">No comments yet. Be the first to comment!</div>
+                {% else %}
+                    {% for comment in comments if not comment.parent_id %}
+                        <div class="comment depth-0">
+                            <div class="comment-header">
+                                <span class="comment-author">{{ comment.author.name or comment.author.email }}</span>
+                                <span class="comment-date">{{ comment.created_at|datetimeformat }}</span>
+                            </div>
+                            <div class="comment-content">{{ comment.content }}</div>
+                            
+                            <div class="comment-actions">
+                                {% if user %}
+                                    <form action="{{ url_for('submit_comment') }}" method="post" class="reply-form">
+                                        <input type="hidden" name="article_id" value="{{ article._id }}">
+                                        <input type="hidden" name="parent_id" value="{{ comment._id }}">
+                                        <textarea name="content" placeholder="Write your reply..." required></textarea>
+                                        <button type="submit" class="submit-button">Reply</button>
+                                    </form>
+                                {% endif %}
+                                
+                                {% if user and user.is_moderator and not comment.is_removed %}
+                                    <div class="moderator-actions">
+                                        <form action="{{ url_for('remove_comment_route', comment_id=comment._id) }}" method="post" class="remove-form">
+                                            <button type="submit" class="remove-button">Remove Comment</button>
+                                        </form>
+                                        
+                                        <form action="{{ url_for('redact_comment_route', comment_id=comment._id) }}" method="post" class="redact-form">
+                                            <input type="text" name="redact_text" placeholder="Text to redact" required>
+                                            <button type="submit" class="redact-button">Redact Text</button>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="comment-replies">
+                                {% for reply in comments if reply.parent_id and reply.parent_id == comment._id %}
+                                    <div class="comment depth-1">
+                                        <div class="comment-header">
+                                            <span class="comment-author">{{ reply.author.name or reply.author.email }}</span>
+                                            <span class="comment-date">{{ reply.created_at|datetimeformat }}</span>
+                                        </div>
+                                        <div class="comment-content">{{ reply.content }}</div>
+                                        
+                                        {% if user and user.is_moderator and not reply.is_removed %}
+                                            <div class="moderator-actions">
+                                                <form action="{{ url_for('remove_comment_route', comment_id=reply._id) }}" method="post" class="remove-form">
+                                                    <button type="submit" class="remove-button">Remove Comment</button>
+                                                </form>
+                                                
+                                                <form action="{{ url_for('redact_comment_route', comment_id=reply._id) }}" method="post" class="redact-form">
+                                                    <input type="text" name="redact_text" placeholder="Text to redact" required>
+                                                    <button type="submit" class="redact-button">Redact Text</button>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 ECS 162 - Web Programming SID: 922749148 Name: Hyunho Song - All rights reserved.</p>
+    </footer>
+</body>
+</html>
